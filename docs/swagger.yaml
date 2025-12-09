@@ -1,0 +1,203 @@
+basePath: /v1
+host: localhost:3000
+info:
+  contact: {}
+  title: Payment Broker
+  version: "1.0"
+paths:
+  /xendit/action/customers:
+    post:
+      consumes:
+      - application/json
+      description: Create a new customer via Xendit
+      parameters:
+      - description: API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        type: string
+      - description: Customer payload
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Customer created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties: true
+            type: object
+        "502":
+          description: Failed to process customer
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Customer
+      tags:
+      - action
+  /xendit/action/invoices:
+    post:
+      consumes:
+      - application/json
+      description: Create a new payment invoice via Xendit
+      parameters:
+      - description: API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        type: string
+      - description: Payment invoice payload
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Payment invoice created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties: true
+            type: object
+        "502":
+          description: Failed to process payment
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Payment Invoice
+      tags:
+      - action
+  /xendit/action/payouts:
+    post:
+      consumes:
+      - application/json
+      description: Create a new payout transaction via Xendit
+      parameters:
+      - description: API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        type: string
+      - description: Payout payload
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Payout created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties: true
+            type: object
+        "502":
+          description: Failed to process payout
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Payout
+      tags:
+      - action
+  /xendit/action/recurring/plans:
+    post:
+      consumes:
+      - application/json
+      description: Create a new recurring subscription plan via Xendit
+      parameters:
+      - description: API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        type: string
+      - description: Subscription plan payload
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Subscription plan created successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid request body
+          schema:
+            additionalProperties: true
+            type: object
+        "502":
+          description: Failed to process subscription
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create Subscription Plan
+      tags:
+      - action
+  /xendit/webhook:
+    post:
+      consumes:
+      - application/json
+      description: Handling Event and UnEvent Webhook from Xendit
+      parameters:
+      - description: API Key
+        in: header
+        name: X-Api-Key
+        required: true
+        type: string
+      - description: Webhook payload
+        in: body
+        name: body
+        required: true
+        schema:
+          additionalProperties: true
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Webhook processed successfully
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Invalid webhook body or missing tenant
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Handle Xendit Webhook
+      tags:
+      - webhook
+swagger: "2.0"

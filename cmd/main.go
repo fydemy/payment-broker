@@ -2,9 +2,9 @@ package main
 
 import (
 	"os"
-	"path/filepath"
 	"payment-broker/internal/app"
 
+	"github.com/gofiber/contrib/swagger"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -13,11 +13,16 @@ import (
 	"go.uber.org/zap"
 )
 
+// @title		Payment Broker
+// @version	1.0
+// @host		localhost:3000
+// @BasePath	/v1
 func main() {
-	// Load .env file from project root
-	_ = godotenv.Load(filepath.Join("..", ".env"))
+	godotenv.Load(".env")
+
 	logger := app.InitLogger()
 	defer logger.Sync()
+
 	cache := redis.NewClient(&redis.Options{
 		Addr:     os.Getenv("REDIS_ADDR"),
 		Password: os.Getenv("REDIS_PWD"),
@@ -29,6 +34,9 @@ func main() {
 
 	fapp := fiber.New()
 	fapp.Use(recover.New())
+	fapp.Use(swagger.New(swagger.Config{
+		FilePath: "./docs/swagger.json",
+	}))
 
 	fapp.Use(cors.New(cors.Config{
 		AllowOrigins: "*",

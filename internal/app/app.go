@@ -24,7 +24,8 @@ type App struct {
 	}
 
 	Controller struct {
-		Xendit controller.XenditController
+		Xendit  controller.XenditController
+		Webhook controller.WebhookController
 	}
 }
 
@@ -35,9 +36,10 @@ func InitApp(db *gorm.DB, logger *zap.Logger, redis *redis.Client) *App {
 	resty := resty.New().SetTimeout(10 * time.Second)
 
 	app.Repository.Tenant = repository.NewTenantRepository(logger, db)
-	app.Service.Tenant = service.NewTenantService(logger, redisLib, app.Repository.Tenant)
+	app.Service.Tenant = service.NewTenantService(logger, resty, redisLib, app.Repository.Tenant)
 	app.Service.Xendit = service.NewXenditService(resty, logger)
 	app.Controller.Xendit = controller.NewXenditController(logger, app.Service.Xendit)
+	app.Controller.Webhook = controller.NewWebhookController(logger, app.Service.Xendit)
 
 	return app
 }

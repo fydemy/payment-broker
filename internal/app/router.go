@@ -13,7 +13,7 @@ func InitRouter(f *fiber.App, app *App, redis *redis.Client) {
 	limiter := redis_rate.NewLimiter(redis)
 
 	api := f.Group("/v1")
-	api.Use(middleware.LimiterMiddleware(limiter, redis_rate.PerSecond(5)))
+	api.Use(middleware.LimiterMiddleware(limiter, redis_rate.PerSecond(3)))
 
-	router.NewXenditRouter(api, app.Service.Tenant, app.Controller.Xendit)
+	router.NewXenditRouter(api, app.Service.Tenant, app.Controller.Xendit, app.Controller.Webhook)
 }
